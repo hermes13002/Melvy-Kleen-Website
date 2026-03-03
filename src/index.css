@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    @apply text-gray-800 bg-white antialiased;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-4 py-16 md:py-24 md:px-8 lg:px-16;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .btn-primary {
+    @apply bg-brand-cyan text-brand-blue font-semibold px-6 py-3 rounded-lg
+           transition-all duration-200 hover:bg-brand-cyan-light hover:shadow-lg
+           hover:-translate-y-0.5 active:translate-y-0 focus:outline-none
+           focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply border-2 border-brand-cyan text-brand-cyan font-semibold px-6 py-3
+           rounded-lg transition-all duration-200 hover:bg-brand-cyan hover:text-brand-blue
+           hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0
+           focus:outline-none focus:ring-2 focus:ring-brand-cyan focus:ring-offset-2;
+  }
+
+  .btn-white {
+    @apply bg-white text-brand-blue font-semibold px-6 py-3 rounded-lg
+           transition-all duration-200 hover:bg-brand-light hover:shadow-lg
+           hover:-translate-y-0.5 active:translate-y-0 focus:outline-none
+           focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-brand-blue;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+           transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-800
+           placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-cyan
+           focus:border-transparent transition-all duration-200;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:ring-red-400;
+  }
+}
