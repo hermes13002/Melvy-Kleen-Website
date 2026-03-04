@@ -60,17 +60,33 @@ export default function CtaSection() {
                             cleaning treatment it deserves.
                         </p>
 
-                        <div className="space-y-4">
-                            {[
-                                { icon: '📞', text: '+234 800 000 0000' },
-                                { icon: '✉️', text: 'hello@melvykleen.com' },
-                                { icon: '📍', text: 'Lagos, Nigeria' },
-                            ].map((item) => (
-                                <div key={item.text} className="flex items-center gap-3">
-                                    <span className="text-xl">{item.icon}</span>
-                                    <span className="text-white/80 text-sm">{item.text}</span>
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 flex-shrink-0 rounded-full bg-brand-cyan/20 flex items-center justify-center text-white">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path>
+                                    </svg>
                                 </div>
-                            ))}
+                                <div className="flex flex-col">
+                                    <span className="text-white/60 text-xs font-medium uppercase tracking-wider mb-0.5">WhatsApp</span>
+                                    <span className="text-white/90 text-[15px] font-semibold">0809 676 3192</span>
+                                    <span className="text-white/90 text-[15px] font-semibold">0912 354 4085</span>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 flex-shrink-0 rounded-full bg-brand-cyan/20 flex items-center justify-center text-white">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                    </svg>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-white/60 text-xs font-medium uppercase tracking-wider mb-0.5">Instagram / TikTok</span>
+                                    <span className="text-white/90 text-[15px] font-semibold">Melvy Kleen</span>
+                                </div>
+                            </div>
                         </div>
 
                         {/* trust points */}
@@ -100,7 +116,7 @@ export default function CtaSection() {
                         initial={{ opacity: 0, x: 30 }}
                         animate={isVisible ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="bg-white rounded-2xl p-8 shadow-2xl"
+                        className="bg-white rounded-[2rem] p-8 shadow-2xl"
                     >
                         {submitted ? (
                             <div className="text-center py-8">
@@ -169,11 +185,11 @@ export default function CtaSection() {
                                         placeholder="Tell us about your space..."
                                         value={form.message}
                                         onChange={handleChange}
-                                        className="input-field resize-none"
+                                        className="input-field resize-none rounded-3xl"
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-primary w-full justify-center">
+                                <button type="submit" className="btn-primary w-full text-white justify-center mt-2">
                                     Send Request
                                 </button>
                             </form>

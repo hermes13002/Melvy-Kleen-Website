@@ -11,9 +11,51 @@ interface Props {
 }
 
 const TIME_SLOTS = [
-    { id: 'morning', label: 'Morning', range: '7:00 AM – 11:00 AM', icon: '🌅' },
-    { id: 'afternoon', label: 'Afternoon', range: '12:00 PM – 4:00 PM', icon: '☀️' },
-    { id: 'evening', label: 'Evening', range: '5:00 PM – 8:00 PM', icon: '🌆' },
+    {
+        id: 'morning',
+        label: 'Morning',
+        range: '7:00 AM – 11:00 AM',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 18a5 5 0 0 0-10 0"></path>
+                <line x1="12" y1="2" x2="12" y2="9"></line>
+                <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"></line>
+                <line x1="1" y1="18" x2="3" y2="18"></line>
+                <line x1="21" y1="18" x2="23" y2="18"></line>
+                <line x1="18.36" y1="11.64" x2="19.78" y2="10.22"></line>
+                <line x1="23" y1="22" x2="1" y2="22"></line>
+                <polyline points="8 6 12 2 16 6"></polyline>
+            </svg>
+        )
+    },
+    {
+        id: 'afternoon',
+        label: 'Afternoon',
+        range: '12:00 PM – 4:00 PM',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        )
+    },
+    {
+        id: 'evening',
+        label: 'Evening',
+        range: '5:00 PM – 8:00 PM',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        )
+    },
 ];
 
 function buildCalendar(year: number, month: number) {
@@ -70,13 +112,13 @@ export default function StepTwo({ selectedDate, selectedTime, onDateChange, onTi
             <p className="text-gray-500 text-sm mb-8">Pick a preferred date and time slot for your cleaning.</p>
 
             {/* calendar */}
-            <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm mb-6">
+            <div className="bg-white border border-gray-100 rounded-[2rem] p-6 shadow-sm mb-6">
                 {/* month nav */}
                 <div className="flex items-center justify-between mb-4">
                     <button
                         type="button"
                         onClick={prevMonth}
-                        className="w-8 h-8 rounded-lg border border-gray-100 flex items-center justify-center hover:bg-brand-light transition-colors"
+                        className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-brand-light transition-colors"
                         aria-label="Previous month"
                     >
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -89,7 +131,7 @@ export default function StepTwo({ selectedDate, selectedTime, onDateChange, onTi
                     <button
                         type="button"
                         onClick={nextMonth}
-                        className="w-8 h-8 rounded-lg border border-gray-100 flex items-center justify-center hover:bg-brand-light transition-colors"
+                        className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-brand-light transition-colors"
                         aria-label="Next month"
                     >
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -120,8 +162,8 @@ export default function StepTwo({ selectedDate, selectedTime, onDateChange, onTi
                                 type="button"
                                 onClick={() => selectDay(day)}
                                 disabled={past}
-                                className={`h-9 w-full rounded-lg text-sm font-medium transition-all duration-150
-                  ${selected ? 'bg-brand-cyan text-brand-blue shadow-md scale-105' :
+                                className={`h-10 w-full rounded-full text-sm font-medium transition-all duration-150
+                  ${selected ? 'bg-brand-blue text-white shadow-md scale-105' :
                                         todayDay ? 'border-2 border-brand-cyan text-brand-blue' :
                                             past ? 'text-gray-200 cursor-not-allowed' :
                                                 'hover:bg-brand-light text-gray-700'
@@ -145,32 +187,42 @@ export default function StepTwo({ selectedDate, selectedTime, onDateChange, onTi
                             key={slot.id}
                             type="button"
                             onClick={() => onTimeChange(slot.id)}
-                            className={`p-4 rounded-xl border-2 text-left transition-all duration-200
+                            className={`p-5 rounded-3xl border-2 text-left transition-all duration-300 group overflow-hidden relative
                 ${selectedTime === slot.id
-                                    ? 'border-brand-cyan bg-brand-light shadow-md'
-                                    : 'border-gray-100 bg-white hover:border-brand-cyan/40'
+                                    ? 'border-brand-blue bg-brand-blue shadow-lg scale-[1.02]'
+                                    : 'border-gray-100 bg-white hover:border-brand-cyan/50 hover:shadow-md'
                                 }`}
                             aria-pressed={selectedTime === slot.id}
                         >
-                            <p className="text-xl mb-1">{slot.icon}</p>
-                            <p className="font-semibold text-sm text-brand-blue">{slot.label}</p>
-                            <p className="text-gray-400 text-xs">{slot.range}</p>
+                            <div className={`w-12 h-12 mb-3 rounded-full flex items-center justify-center transition-colors duration-300 ${selectedTime === slot.id ? 'bg-white/20 text-white' : 'bg-brand-cyan/10 text-brand-cyan'}`}>
+                                {slot.icon}
+                            </div>
+                            <p className={`font-bold text-[15px] transition-colors duration-300 ${selectedTime === slot.id ? 'text-white' : 'text-brand-blue'}`}>{slot.label}</p>
+                            <p className={`text-xs mt-1 transition-colors duration-300 ${selectedTime === slot.id ? 'text-white/80' : 'text-gray-500'}`}>{slot.range}</p>
                         </button>
                     ))}
                 </div>
             </div>
 
-            <div className="flex justify-between">
-                <button type="button" onClick={onBack} className="btn-outline">
-                    ← Back
+            <div className="flex justify-between flex-col sm:flex-row gap-4">
+                <button type="button" onClick={onBack} className="btn-outline flex items-center justify-center sm:justify-start gap-2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back
                 </button>
                 <button
                     type="button"
                     onClick={onNext}
                     disabled={!selectedDate || !selectedTime}
-                    className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                    className="btn-primary flex items-center justify-center sm:justify-start gap-2 text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
-                    Continue →
+                    Continue
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                 </button>
             </div>
         </div>

@@ -177,12 +177,20 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
                     </div>
                 </div>
 
-                <div className="flex justify-between pt-2">
-                    <button type="button" onClick={onBack} className="btn-outline">
-                        ← Back
+                <div className="flex justify-between flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onClick={onBack} className="btn-outline flex items-center justify-center sm:justify-start gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back
                     </button>
-                    <button type="submit" className="btn-primary">
-                        Confirm Booking ✓
+                    <button type="submit" className="btn-primary flex items-center justify-center sm:justify-start gap-2 text-white">
+                        Confirm Booking
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
                     </button>
                 </div>
             </form>

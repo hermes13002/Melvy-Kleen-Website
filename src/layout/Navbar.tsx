@@ -60,14 +60,14 @@ export default function Navbar() {
 
                 {/* cta */}
                 <div className="hidden md:block">
-                    <Link to="/booking" className="btn-primary text-sm">
+                    <Link to="/booking" className="btn-primary text-white hover:text-white text-sm">
                         Book a Clean
                     </Link>
                 </div>
 
                 {/* hamburger */}
                 <button
-                    className="md:hidden p-2 rounded-lg"
+                    className="md:hidden p-2 rounded-full"
                     onClick={() => setMenuOpen((o) => !o)}
                     aria-label="Toggle menu"
                     aria-expanded={menuOpen}
@@ -93,14 +93,14 @@ export default function Navbar() {
                                 <li key={link.label}>
                                     <a
                                         href={link.href}
-                                        className="block py-2.5 px-3 text-gray-700 font-medium rounded-lg hover:bg-brand-light hover:text-brand-blue transition-colors"
+                                        className="block py-2.5 px-4 text-gray-700 font-medium rounded-full hover:bg-brand-light hover:text-brand-blue transition-colors"
                                     >
                                         {link.label}
                                     </a>
                                 </li>
                             ))}
                             <li className="pt-2">
-                                <Link to="/booking" className="btn-primary block text-center text-sm">
+                                <Link to="/booking" className="btn-primary block text-center text-white hover:text-white text-sm">
                                     Book a Clean
                                 </Link>
                             </li>

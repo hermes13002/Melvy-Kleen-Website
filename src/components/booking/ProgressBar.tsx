@@ -19,10 +19,10 @@ export default function ProgressBar({ currentStep }: Props) {
                         <div className="flex flex-col items-center">
                             <div
                                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm border-2 transition-all duration-300 ${step.num < currentStep
-                                        ? 'bg-brand-cyan border-brand-cyan text-brand-blue'
-                                        : step.num === currentStep
-                                            ? 'bg-brand-blue border-brand-blue text-white'
-                                            : 'bg-white border-gray-200 text-gray-400'
+                                    ? 'bg-brand-cyan border-brand-cyan text-brand-blue'
+                                    : step.num === currentStep
+                                        ? 'bg-brand-blue border-brand-blue text-white'
+                                        : 'bg-white border-gray-200 text-gray-400'
                                     }`}
                             >
                                 {step.num < currentStep ? (
@@ -40,7 +40,7 @@ export default function ProgressBar({ currentStep }: Props) {
 
                         {/* connector */}
                         {idx < steps.length - 1 && (
-                            <div className="flex-1 h-0.5 mx-2 mb-5 rounded-full transition-all duration-500 bg-gray-200 overflow-hidden">
+                            <div className="flex-1 h-1.5 mx-2 mb-5 rounded-full transition-all duration-500 bg-gray-200 overflow-hidden">
                                 <div
                                     className="h-full bg-brand-cyan transition-all duration-500"
                                     style={{ width: step.num < currentStep ? '100%' : '0%' }}

@@ -56,8 +56,12 @@ export default function TestimonialsSection() {
     const { ref, isVisible } = useScrollReveal();
 
     return (
-        <section id="testimonials" className="section-padding bg-white">
-            <div className="container-max" ref={ref}>
+        <section id="testimonials" className="section-padding bg-white relative overflow-hidden">
+            {/* decorative circles */}
+            <div className="absolute top-1/4 left-0 w-80 h-80 rounded-full bg-brand-blue/5 -translate-x-1/2 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-brand-cyan/10 translate-x-1/3 translate-y-1/3 pointer-events-none" />
+
+            <div className="container-max relative" ref={ref}>
                 <SectionHeading
                     label="What Our Clients Say"
                     title="Trusted by Hundreds of Clients"
@@ -74,7 +78,7 @@ export default function TestimonialsSection() {
                         <motion.div
                             key={t.id}
                             variants={cardVariants}
-                            className="card flex flex-col gap-4 relative"
+                            className="card flex flex-col gap-4 relative z-10 hover:-translate-y-2"
                         >
                             {/* quote mark */}
                             <span className="absolute top-5 right-6 text-5xl text-brand-cyan/20 font-serif leading-none select-none" aria-hidden="true">"</span>

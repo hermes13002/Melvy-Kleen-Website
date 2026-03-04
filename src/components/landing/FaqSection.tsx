@@ -43,55 +43,50 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.07 }}
-            className="rounded-2xl overflow-hidden shadow-md"
+            transition={{ duration: 0.4, delay: index * 0.05 }}
+            className={`bg-white rounded-[2rem] border transition-all duration-300 overflow-hidden ${open ? 'border-brand-cyan shadow-md' : 'border-gray-100 shadow-sm hover:border-brand-cyan/40 hover:shadow-md'}`}
         >
-            {/* two-tone card layout matching design reference */}
-            <div className="grid grid-cols-1 md:grid-cols-2">
-                {/* question — dark blue */}
-                <button
-                    type="button"
-                    onClick={() => setOpen((o) => !o)}
-                    className="bg-brand-blue text-white text-left p-6 flex items-center justify-between gap-4
-                     hover:bg-brand-blue-dark transition-colors duration-200 group"
-                    aria-expanded={open}
+            <button
+                type="button"
+                onClick={() => setOpen((o) => !o)}
+                className="w-full text-left px-6 py-6 sm:px-8 sm:py-7 flex items-center justify-between gap-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-inset"
+                aria-expanded={open}
+            >
+                <span className={`font-bold text-lg leading-snug transition-colors duration-300 ${open ? 'text-brand-cyan' : 'text-brand-blue'}`}>
+                    {question}
+                </span>
+                <span
+                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${open ? 'bg-brand-cyan text-white rotate-180' : 'bg-brand-light text-brand-blue'}`}
+                    aria-hidden="true"
                 >
-                    <span className="font-semibold text-base leading-snug">{question}</span>
-                    <span
-                        className={`flex-shrink-0 w-7 h-7 rounded-full border-2 border-white/40 flex items-center justify-center
-                        transition-transform duration-300 ${open ? 'rotate-45' : ''}`}
-                        aria-hidden="true"
-                    >
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <path d="M6 1v10M1 6h10" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    {open ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                    </span>
-                </button>
+                    ) : (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    )}
+                </span>
+            </button>
 
-                {/* answer — cyan */}
-                <div className="bg-brand-cyan">
-                    <AnimatePresence initial={false}>
-                        {/* on md+ always shown inline; on mobile collapse */}
-                        <div className="hidden md:flex items-center p-6">
-                            <p className="text-brand-blue text-sm leading-relaxed font-medium">{answer}</p>
+            <AnimatePresence initial={false}>
+                {open && (
+                    <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    >
+                        <div className="px-6 pb-6 sm:px-8 sm:pb-7 pt-0 text-gray-600 leading-relaxed text-base">
+                            {answer}
                         </div>
-                    </AnimatePresence>
-                    <AnimatePresence initial={false}>
-                        {open && (
-                            <motion.div
-                                key="mobile-answer"
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="md:hidden overflow-hidden"
-                            >
-                                <p className="p-5 text-brand-blue text-sm leading-relaxed font-medium">{answer}</p>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
-            </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }
