@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Props {
     selected: string;
     onSelect: (service: string) => void;
