@@ -1,6 +1,6 @@
 // fixed bottom-right whatsapp button
 export default function WhatsAppFab() {
-    const number = '2348000000000'; // placeholder number
+    const number = '2348096763192';
 
     return (
         <a

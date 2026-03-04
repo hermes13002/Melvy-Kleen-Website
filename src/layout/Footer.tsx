@@ -11,11 +11,6 @@ export default function Footer() {
                     {/* brand */}
                     <div className="lg:col-span-2">
                         <div className="flex items-center gap-2 mb-4">
-                            <span className="w-9 h-9 rounded-full bg-brand-cyan flex items-center justify-center">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="M12 2C7 2 3 6.5 3 12c0 4 2 7.5 5 9.5V22h8v-.5c3-2 5-5.5 5-9.5 0-5.5-4-10-9-10z" fill="#004080" />
-                                </svg>
-                            </span>
                             <span className="font-bold text-2xl">
                                 Melvy <span className="text-brand-cyan">Kleen</span>
                             </span>
