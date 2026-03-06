@@ -92,14 +92,7 @@ export default function BookingPage() {
                             )}
                             {step === 3 && (
                                 <StepThree
-                                    data={{
-                                        address: form.address,
-                                        city: form.city,
-                                        postcode: form.postcode,
-                                        fullName: form.fullName,
-                                        phone: form.phone,
-                                        email: form.email,
-                                    }}
+                                    data={form}
                                     onChange={setField}
                                     onSubmit={goNext}
                                     onBack={goBack}

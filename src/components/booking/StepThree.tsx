@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import type { BookingFormData } from '../../types';
+import { createBooking } from '../../services/bookingService';
 
 // step 3 — contact and address form with validation
 interface Props {
-    data: Pick<BookingFormData, 'address' | 'city' | 'postcode' | 'fullName' | 'phone' | 'email'>;
+    data: BookingFormData;
     onChange: (field: keyof BookingFormData, value: string) => void;
     onSubmit: () => void;
     onBack: () => void;
@@ -26,6 +27,7 @@ function validate(data: Props['data']): Errors {
 export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
     const [errors, setErrors] = useState<Errors>({});
     const [touched, setTouched] = useState<Partial<Record<keyof Props['data'], boolean>>>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleBlur = (field: keyof Props['data']) => {
         setTouched((prev) => ({ ...prev, [field]: true }));
@@ -33,13 +35,54 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
         setErrors(errs);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const allTouched = Object.keys(data).reduce((acc, k) => ({ ...acc, [k]: true }), {});
         setTouched(allTouched as typeof touched);
         const errs = validate(data);
         setErrors(errs);
-        if (Object.keys(errs).length === 0) onSubmit();
+
+        if (Object.keys(errs).length === 0) {
+            setIsSubmitting(true);
+            try {
+                // 1. Save to Firebase
+                await createBooking({
+                    serviceName: data.service,
+                    categoryName: 'General', // Can refine this later based on actual selected category
+                    price: 0, // Set to actual calculated price if applicable
+                    date: data.date,
+                    time: data.time,
+                    customerDetails: {
+                        firstName: data.fullName.split(' ')[0],
+                        lastName: data.fullName.split(' ').slice(1).join(' '),
+                        email: data.email,
+                        phone: data.phone,
+                        address: `${data.address}, ${data.city}, ${data.postcode}`,
+                        notes: ''
+                    }
+                });
+
+                // 2. Format WhatsApp Message
+                const whatsappNumber = '2348096763192'; // Customer service WhatsApp number
+                const message = `Hello Melvy Kleen! I would like to confirm my booking:\n\n*Service:* ${data.service}\n*Date:* ${data.date}\n*Time:* ${data.time}\n\n*Name:* ${data.fullName}\n*Address:* ${data.address}, ${data.city}\n*Phone:* ${data.phone}\n\nPlease let me know the next steps!`;
+
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+                // 3. Complete the flow & Redirect
+                onSubmit();
+
+                // Small delay to let user see "Success" screen before jumping to WhatsApp
+                setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                }, 1500);
+
+            } catch (error) {
+                console.error("Failed to submit booking", error);
+                alert("There was an error saving your booking. Please try again.");
+            } finally {
+                setIsSubmitting(false);
+            }
+        }
     };
 
     const fieldClass = (field: keyof Props['data']) =>
@@ -185,12 +228,14 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
                         </svg>
                         Back
                     </button>
-                    <button type="submit" className="btn-primary flex items-center justify-center sm:justify-start gap-2 text-white">
-                        Confirm Booking
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
+                    <button disabled={isSubmitting} type="submit" className="btn-primary flex items-center justify-center sm:justify-start gap-2 text-white disabled:opacity-70">
+                        {isSubmitting ? 'Confirming...' : 'Confirm Booking'}
+                        {!isSubmitting && (
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        )}
                     </button>
                 </div>
             </form>

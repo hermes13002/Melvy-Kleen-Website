@@ -39,16 +39,13 @@ export default function SuccessScreen() {
                 transition={{ duration: 0.5, delay: 0.3 }}
             >
                 <h2 className="text-3xl font-bold text-brand-blue mb-3">Booking Confirmed!</h2>
-                <p className="text-gray-500 text-base max-w-sm mx-auto mb-2">
-                    Your booking request has been received. Our team will contact you within 24 hours to confirm the details.
-                </p>
-                <p className="text-brand-cyan font-semibold text-sm mb-8">
-                    Check your email for a confirmation summary.
+                <p className="text-gray-500 text-base max-w-sm mx-auto mb-8">
+                    Your booking request has been received. Our team will message you on WhatsApp shortly to confirm the details.
                 </p>
 
                 <div className="flex flex-wrap gap-4 justify-center">
-                    <Link to="/" className="btn-primary">
-                        ← Back to Home
+                    <Link to="/" className="btn-primary text-white">
+                        Back to Home
                     </Link>
                     <a href="/#contact" className="btn-outline">
                         Contact Us
