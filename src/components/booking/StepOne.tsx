@@ -4,7 +4,7 @@ interface Props {
     onNext: () => void;
 }
 
-const services = [
+export const services = [
     {
         id: 'house',
         label: 'House Cleaning',

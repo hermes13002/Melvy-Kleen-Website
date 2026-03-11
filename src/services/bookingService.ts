@@ -10,7 +10,6 @@ export interface BookingPayload {
     customerDetails: {
         firstName: string;
         lastName: string;
-        email: string;
         phone: string;
         address: string;
         notes?: string;

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/#services' },
-    { label: 'Results', href: '/#results' },
+    { label: 'Results', href: '/results' },
     { label: 'Testimonials', href: '/#testimonials' },
     { label: 'Contact', href: '/#contact' },
 ];
@@ -41,13 +41,22 @@ export default function Navbar() {
                 <ul className="hidden md:flex items-center gap-6">
                     {navLinks.map((link) => (
                         <li key={link.label}>
-                            <a
-                                href={link.href}
-                                className={`text-sm font-medium transition-colors duration-200 hover:text-brand-cyan ${scrolled ? 'text-gray-600' : 'text-white/90'
-                                    }`}
-                            >
-                                {link.label}
-                            </a>
+                            {link.href.startsWith('/#') ? (
+                                <Link
+                                    to="/"
+                                    state={{ scrollTo: link.href.replace('/#', '') }}
+                                    className={`text-sm font-medium transition-colors duration-200 hover:text-brand-cyan ${scrolled ? 'text-gray-600' : 'text-black/90'}`}
+                                >
+                                    {link.label}
+                                </Link>
+                            ) : (
+                                <Link
+                                    to={link.href}
+                                    className={`text-sm font-medium transition-colors duration-200 hover:text-brand-cyan ${scrolled ? 'text-gray-600' : 'text-black/90'}`}
+                                >
+                                    {link.label}
+                                </Link>
+                            )}
                         </li>
                     ))}
                 </ul>
@@ -66,9 +75,9 @@ export default function Navbar() {
                     aria-label="Toggle menu"
                     aria-expanded={menuOpen}
                 >
-                    <span className={`block w-6 h-0.5 mb-1.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-white'} ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                    <span className={`block w-6 h-0.5 mb-1.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-white'} ${menuOpen ? 'opacity-0' : ''}`} />
-                    <span className={`block w-6 h-0.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-white'} ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+                    <span className={`block w-6 h-0.5 mb-1.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-black'} ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+                    <span className={`block w-6 h-0.5 mb-1.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-black'} ${menuOpen ? 'opacity-0' : ''}`} />
+                    <span className={`block w-6 h-0.5 transition-all duration-300 ${scrolled ? 'bg-brand-blue' : 'bg-black'} ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
                 </button>
             </nav>
 
@@ -85,12 +94,24 @@ export default function Navbar() {
                         <ul className="px-4 pb-4 pt-2 space-y-1">
                             {navLinks.map((link) => (
                                 <li key={link.label}>
-                                    <a
-                                        href={link.href}
-                                        className="block py-2.5 px-4 text-gray-700 font-medium rounded-full hover:bg-brand-light hover:text-brand-blue transition-colors"
-                                    >
-                                        {link.label}
-                                    </a>
+                                    {link.href.startsWith('/#') ? (
+                                        <Link
+                                            to="/"
+                                            state={{ scrollTo: link.href.replace('/#', '') }}
+                                            className="block py-2.5 px-4 text-gray-700 font-medium rounded-full hover:bg-brand-light hover:text-brand-blue transition-colors"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    ) : (
+                                        <Link
+                                            to={link.href}
+                                            className="block py-2.5 px-4 text-gray-700 font-medium rounded-full hover:bg-brand-light hover:text-brand-blue transition-colors"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    )}
                                 </li>
                             ))}
                             <li className="pt-2">

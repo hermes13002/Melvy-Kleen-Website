@@ -1,41 +1,9 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
-type FormState = {
-    name: string;
-    phone: string;
-    serviceType: string;
-    message: string;
-};
-
-const initialForm: FormState = { name: '', phone: '', serviceType: '', message: '' };
-
-const serviceOptions = [
-    'Deep Cleaning',
-    'Fumigation',
-    'Satisfactory Cleaning',
-    'Stain Control',
-    'Move In / Out',
-    'Event Cleaning',
-    'Office Cleaning',
-    'Maintenance',
-];
-
 export default function CtaSection() {
     const { ref, isVisible } = useScrollReveal();
-    const [form, setForm] = useState<FormState>(initialForm);
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true);
-        setTimeout(() => { setSubmitted(false); setForm(initialForm); }, 4000);
-    };
 
     return (
         <section id="contact" className="section-padding bg-brand-blue overflow-hidden relative">
@@ -90,7 +58,7 @@ export default function CtaSection() {
                         </div>
 
                         {/* trust points */}
-                        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {/* <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                             {[
                                 { title: 'Skilled Professionals', desc: 'Vetted, trained, and certified' },
                                 { title: 'Eco-Friendly Products', desc: 'Safe for kids & pets' },
@@ -108,92 +76,51 @@ export default function CtaSection() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </motion.div>
 
-                    {/* right form */}
+                    {/* right CTA card replacing form */}
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         animate={isVisible ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="bg-white rounded-[2rem] p-8 shadow-2xl"
+                        className="bg-white rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden"
                     >
-                        {submitted ? (
-                            <div className="text-center py-8">
-                                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                                        <path d="M8 16l5 5 11-11" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-brand-blue font-bold text-xl mb-2">Request Sent!</h3>
-                                <p className="text-gray-500 text-sm">We'll contact you within 24 hours.</p>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                                <h3 className="text-brand-blue font-bold text-lg mb-1">Send a Request</h3>
+                        {/* subtle background pattern in card */}
+                        <div className="absolute -top-16 -right-16 w-32 h-32 bg-brand-cyan/10 rounded-full blur-2xl" />
+                        <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-brand-blue/5 rounded-full blur-2xl" />
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="cta-name" className="block text-xs font-medium text-gray-600 mb-1">Full Name</label>
-                                        <input
-                                            id="cta-name"
-                                            name="name"
-                                            type="text"
-                                            required
-                                            placeholder="Your name"
-                                            value={form.name}
-                                            onChange={handleChange}
-                                            className="input-field"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="cta-phone" className="block text-xs font-medium text-gray-600 mb-1">Phone Number</label>
-                                        <input
-                                            id="cta-phone"
-                                            name="phone"
-                                            type="tel"
-                                            required
-                                            placeholder="+234..."
-                                            value={form.phone}
-                                            onChange={handleChange}
-                                            className="input-field"
-                                        />
-                                    </div>
-                                </div>
+                        <div className="w-20 h-20 bg-brand-cyan/10 rounded-full flex items-center justify-center mb-6">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00bfff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <path d="M8 14h.01" />
+                                <path d="M12 14h.01" />
+                                <path d="M16 14h.01" />
+                                <path d="M8 18h.01" />
+                                <path d="M12 18h.01" />
+                                <path d="M16 18h.01" />
+                            </svg>
+                        </div>
 
-                                <div>
-                                    <label htmlFor="cta-service" className="block text-xs font-medium text-gray-600 mb-1">Service Type</label>
-                                    <select
-                                        id="cta-service"
-                                        name="serviceType"
-                                        required
-                                        value={form.serviceType}
-                                        onChange={handleChange}
-                                        className="input-field"
-                                    >
-                                        <option value="">Select a service</option>
-                                        {serviceOptions.map((s) => <option key={s} value={s}>{s}</option>)}
-                                    </select>
-                                </div>
+                        <h3 className="text-2xl font-bold text-brand-blue mb-4">Ready for a Spotless Space?</h3>
+                        <p className="text-gray-600 mb-8 max-w-sm">
+                            Skip the wait and select your preferred cleaning service directly. Secure your spot in under 2 minutes.
+                        </p>
 
-                                <div>
-                                    <label htmlFor="cta-message" className="block text-xs font-medium text-gray-600 mb-1">Message (optional)</label>
-                                    <textarea
-                                        id="cta-message"
-                                        name="message"
-                                        rows={3}
-                                        placeholder="Tell us about your space..."
-                                        value={form.message}
-                                        onChange={handleChange}
-                                        className="input-field resize-none rounded-3xl"
-                                    />
-                                </div>
-
-                                <button type="submit" className="btn-primary w-full text-white justify-center mt-2">
-                                    Send Request
-                                </button>
-                            </form>
-                        )}
+                        <Link
+                            to="/booking"
+                            className="btn-primary w-full max-w-xs text-center text-white justify-center py-4 text-base relative group overflow-hidden"
+                        >
+                            <span className="relative z-10 flex items-center justify-center gap-2">
+                                Book Your Cleaning
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </span>
+                        </Link>
                     </motion.div>
                 </div>
             </div>

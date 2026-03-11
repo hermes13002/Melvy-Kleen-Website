@@ -55,9 +55,9 @@ export default function HeroSection() {
                             <Link to="/booking" className="btn-primary text-base text-white hover:text-white px-8 py-3.5">
                                 Book a Clean
                             </Link>
-                            <a href="/#results" className="btn-outline text-base px-8 py-3.5 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white">
+                            <Link to="/results" className="btn-outline text-base px-8 py-3.5 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white">
                                 See Our Work
-                            </a>
+                            </Link>
                         </motion.div>
 
                         {/* trust badges */}

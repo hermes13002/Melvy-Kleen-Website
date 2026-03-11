@@ -16,7 +16,6 @@ const initialForm: BookingFormData = {
     postcode: '',
     fullName: '',
     phone: '',
-    email: '',
 };
 
 const slideVariants = {

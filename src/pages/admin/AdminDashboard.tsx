@@ -9,6 +9,7 @@ export default function AdminDashboard() {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
     const [bookings, setBookings] = useState<any[]>([]);
+    const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -131,7 +132,11 @@ export default function AdminDashboard() {
                                     </tr>
                                 ) : (
                                     bookings.map((booking) => (
-                                        <tr key={booking.id} className="hover:bg-gray-50 transition-colors">
+                                        <tr
+                                            key={booking.id}
+                                            className="hover:bg-gray-50 transition-colors cursor-pointer"
+                                            onClick={() => setSelectedBooking(booking)}
+                                        >
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="text-sm font-medium text-gray-900">{booking.date}</div>
                                                 <div className="text-sm text-gray-500">{booking.time}</div>
@@ -148,15 +153,15 @@ export default function AdminDashboard() {
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="text-sm text-gray-900">{booking.serviceName}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                                                 <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${booking.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                                        booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                                            'bg-amber-100 text-amber-800'
+                                                    booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                        'bg-amber-100 text-amber-800'
                                                     }`}>
                                                     {booking.status || 'pending'}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
                                                 <select
                                                     className="text-sm border-gray-300 rounded-lg focus:ring-brand-cyan focus:border-brand-cyan"
                                                     value={booking.status || 'pending'}
@@ -175,6 +180,100 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             </div>
+
+            {/* Booking Details Modal */}
+            {selectedBooking && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
+                    <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+                        <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white">
+                            <h3 className="text-xl font-bold text-brand-blue">Booking Details</h3>
+                            <button
+                                onClick={() => setSelectedBooking(null)}
+                                className="text-gray-400 hover:text-gray-500 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-6">
+                            {/* Status Stripe */}
+                            <div className={`p-4 rounded-xl flex items-center justify-between ${selectedBooking.status === 'completed' ? 'bg-green-50' :
+                                selectedBooking.status === 'cancelled' ? 'bg-red-50' :
+                                    'bg-amber-50'
+                                }`}>
+                                <span className={`text-sm font-medium ${selectedBooking.status === 'completed' ? 'text-green-800' :
+                                    selectedBooking.status === 'cancelled' ? 'text-red-800' :
+                                        'text-amber-800'
+                                    }`}>
+                                    Status: {selectedBooking.status?.toUpperCase() || 'PENDING'}
+                                </span>
+                            </div>
+
+                            {/* Service Details */}
+                            <div>
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Service Requirements</h4>
+                                <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-500 text-sm">Service Type</span>
+                                        <span className="font-semibold text-gray-900">{selectedBooking.serviceName}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-500 text-sm">Date</span>
+                                        <span className="font-semibold text-gray-900">{selectedBooking.date}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-500 text-sm">Time</span>
+                                        <span className="font-semibold text-gray-900">{selectedBooking.time}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Customer Details */}
+                            <div>
+                                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Customer Information</h4>
+                                <div className="bg-gray-50 rounded-xl p-4 space-y-4">
+                                    <div>
+                                        <span className="block text-gray-500 text-xs mb-1">Full Name</span>
+                                        <span className="font-medium text-gray-900">{selectedBooking.customerDetails?.firstName} {selectedBooking.customerDetails?.lastName}</span>
+                                    </div>
+                                    <div>
+                                        <span className="block text-gray-500 text-xs mb-1">WhatsApp / Phone</span>
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-medium text-gray-900">{selectedBooking.customerDetails?.phone}</span>
+                                            <a
+                                                href={`https://wa.me/${selectedBooking.customerDetails?.phone?.replace(/\D/g, '')}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-xs bg-green-100 text-green-700 font-bold px-2 py-1 rounded-md hover:bg-green-200 transition-colors"
+                                            >
+                                                Chat
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span className="block text-gray-500 text-xs mb-1">Full Address</span>
+                                        <span className="font-medium text-gray-900 leading-relaxed block">
+                                            {selectedBooking.customerDetails?.address}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-4 border-t border-gray-100 flex justify-end">
+                                <button
+                                    onClick={() => setSelectedBooking(null)}
+                                    className="btn-primary text-white w-full sm:w-auto"
+                                >
+                                    Close Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

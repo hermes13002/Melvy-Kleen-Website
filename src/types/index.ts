@@ -25,7 +25,6 @@ export interface BookingFormData {
     postcode: string;
     fullName: string;
     phone: string;
-    email: string;
 }
 
 export type BookingStep = 1 | 2 | 3 | 'done';

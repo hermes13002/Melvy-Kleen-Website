@@ -50,9 +50,13 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {services.map((s) => (
                                 <li key={s}>
-                                    <a href="/#services" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
+                                    <Link
+                                        to="/"
+                                        state={{ scrollTo: 'services' }}
+                                        className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200"
+                                    >
                                         {s}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -68,10 +72,22 @@ export default function Footer() {
                                         <Link to="/booking" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
                                             {l}
                                         </Link>
-                                    ) : (
-                                        <a href={l === 'Home' ? '/' : `/#${l.toLowerCase()}`} className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
+                                    ) : l === 'Results' ? (
+                                        <Link to="/results" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
                                             {l}
-                                        </a>
+                                        </Link>
+                                    ) : l === 'Home' ? (
+                                        <Link to="/" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
+                                            {l}
+                                        </Link>
+                                    ) : (
+                                        <Link
+                                            to="/"
+                                            state={{ scrollTo: l.toLowerCase() }}
+                                            className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200"
+                                        >
+                                            {l}
+                                        </Link>
                                     )}
                                 </li>
                             ))}

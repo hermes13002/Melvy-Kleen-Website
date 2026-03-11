@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { BookingFormData } from '../../types';
 import { createBooking } from '../../services/bookingService';
+import { services } from './StepOne';
 
 // step 3 — contact and address form with validation
 interface Props {
@@ -15,10 +16,8 @@ type Errors = Partial<Record<keyof Props['data'], string>>;
 function validate(data: Props['data']): Errors {
     const errs: Errors = {};
     if (!data.fullName.trim()) errs.fullName = 'Full name is required';
-    if (!data.phone.trim()) errs.phone = 'Phone number is required';
+    if (!data.phone.trim()) errs.phone = 'WhatsApp Phone number is required';
     else if (!/^\+?[0-9\s\-]{7,15}$/.test(data.phone)) errs.phone = 'Enter a valid phone number';
-    if (!data.email.trim()) errs.email = 'Email address is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errs.email = 'Enter a valid email address';
     if (!data.address.trim()) errs.address = 'Street address is required';
     if (!data.city.trim()) errs.city = 'City is required';
     return errs;
@@ -45,9 +44,12 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
         if (Object.keys(errs).length === 0) {
             setIsSubmitting(true);
             try {
+                const selectedService = services.find(s => s.id === data.service);
+                const fullServiceName = selectedService ? selectedService.label : data.service;
+
                 // 1. Save to Firebase
                 await createBooking({
-                    serviceName: data.service,
+                    serviceName: fullServiceName,
                     categoryName: 'General', // Can refine this later based on actual selected category
                     price: 0, // Set to actual calculated price if applicable
                     date: data.date,
@@ -55,7 +57,6 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
                     customerDetails: {
                         firstName: data.fullName.split(' ')[0],
                         lastName: data.fullName.split(' ').slice(1).join(' '),
-                        email: data.email,
                         phone: data.phone,
                         address: `${data.address}, ${data.city}, ${data.postcode}`,
                         notes: ''
@@ -64,7 +65,7 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
 
                 // 2. Format WhatsApp Message
                 const whatsappNumber = '2348096763192'; // Customer service WhatsApp number
-                const message = `Hello Melvy Kleen! I would like to confirm my booking:\n\n*Service:* ${data.service}\n*Date:* ${data.date}\n*Time:* ${data.time}\n\n*Name:* ${data.fullName}\n*Address:* ${data.address}, ${data.city}\n*Phone:* ${data.phone}\n\nPlease let me know the next steps!`;
+                const message = `Hello Melvy Kleen! I would like to confirm my booking:\n\n*Service:* ${fullServiceName}\n*Date:* ${data.date}\n*Time:* ${data.time}\n\n*Name:* ${data.fullName}\n*Address:* ${data.address}, ${data.city}\n*Phone:* ${data.phone}\n\nPlease let me know the next steps!`;
 
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
@@ -119,7 +120,7 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
 
                     <div>
                         <label htmlFor="phone" className="block text-xs font-medium text-gray-600 mb-1">
-                            Phone <span className="text-red-400">*</span>
+                            WhatsApp Phone Number <span className="text-red-400">*</span>
                         </label>
                         <input
                             id="phone"
@@ -137,27 +138,6 @@ export default function StepThree({ data, onChange, onSubmit, onBack }: Props) {
                             <p id="phone-error" className="text-red-400 text-xs mt-1">{errors.phone}</p>
                         )}
                     </div>
-                </div>
-
-                <div>
-                    <label htmlFor="email" className="block text-xs font-medium text-gray-600 mb-1">
-                        Email Address <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                        id="email"
-                        type="email"
-                        autoComplete="email"
-                        value={data.email}
-                        onChange={(e) => onChange('email', e.target.value)}
-                        onBlur={() => handleBlur('email')}
-                        className={fieldClass('email')}
-                        placeholder="jane@example.com"
-                        aria-invalid={!!(touched.email && errors.email)}
-                        aria-describedby={errors.email ? 'email-error' : undefined}
-                    />
-                    {touched.email && errors.email && (
-                        <p id="email-error" className="text-red-400 text-xs mt-1">{errors.email}</p>
-                    )}
                 </div>
 
                 {/* address */}
