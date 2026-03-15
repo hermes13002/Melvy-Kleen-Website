@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const services = ['House Cleaning', 'Office Cleaning', 'Post Construction', 'Detailed Ironing', 'Relocation Cleaning', 'Window Cleaning'];
-const quickLinks = ['Home', 'Services', 'Results', 'Testimonials', 'Book a Clean'];
+const quickLinks = ['Home', 'Services', /* 'Results', */ 'Testimonials', 'Book a Clean'];
 
 export default function Footer() {
     return (
@@ -70,10 +70,6 @@ export default function Footer() {
                                 <li key={l}>
                                     {l === 'Book a Clean' ? (
                                         <Link to="/booking" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
-                                            {l}
-                                        </Link>
-                                    ) : l === 'Results' ? (
-                                        <Link to="/results" className="text-white/70 text-sm hover:text-brand-cyan transition-colors duration-200">
                                             {l}
                                         </Link>
                                     ) : l === 'Home' ? (
